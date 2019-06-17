@@ -5,7 +5,7 @@ import { render, waitForElement } from "@testing-library/react";
 
 import { Thing, useCounter } from "../src";
 
-describe("test initial component", () => {
+describe("test initial placeholder component", () => {
   it("renders without crashing", () => {
     const div = document.createElement("div");
     ReactDOM.render(<Thing />, div);
@@ -18,7 +18,7 @@ describe("test initial component", () => {
   });
 });
 
-describe("test fake hooks", () => {
+describe("test placeholder hooks", () => {
   it("should increment counter", () => {
     const { result } = renderHook(() => useCounter());
 
