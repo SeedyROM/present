@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 
+// Delete me
 export const useCounter = () => {
   const [count, setCount] = useState(0);
 
@@ -9,7 +10,7 @@ export const useCounter = () => {
   return { count, increment, decrement };
 };
 
-// Delete me
+// Delete me as well
 export const Thing = () => {
   return <div>i work</div>;
 };

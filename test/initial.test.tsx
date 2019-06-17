@@ -5,6 +5,7 @@ import { render, waitForElement } from "@testing-library/react";
 
 import { Thing, useCounter } from "../src";
 
+// Test initial setup
 describe("it", () => {
   it("renders without crashing", () => {
     const div = document.createElement("div");
