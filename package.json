@@ -5,6 +5,7 @@
   "umd:main": "dist/present.umd.production.js",
   "module": "dist/present.es.production.js",
   "typings": "dist/index.d.ts",
+  "license": "MIT",
   "files": [
     "dist"
   ],
