@@ -29,22 +29,22 @@ Component Ideas:
 */
 
 const initialExampleConcept = (
-  <Animation>
+  <Animate>
     <KeyFrames>
-      <Tween 
+      <Tween
         component="component"
         ease="linear"
         priority={1}
         duration={300}
         to={{
-          opacity: 1;
+          opacity: 1,
         }}
       />
     </KeyFrames>
     <Elements>
       <Component name="component" />
     </Elements>
-  </Animation>
+  </Animate>
 );
 
 /* 

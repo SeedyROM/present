@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
 // Delete me
 export const useCounter = () => {
@@ -8,9 +8,4 @@ export const useCounter = () => {
   const decrement = useCallback(() => setCount(x => x - 1), []);
 
   return { count, increment, decrement };
-};
-
-// Delete me as well
-export const Thing = () => {
-  return <div>i work</div>;
 };
