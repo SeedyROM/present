@@ -50,6 +50,6 @@ const initialExampleConcept = (
 /* 
 
 Crap Shoots:
- - withPresence(animation)(component)? Possibly allow components to use this API with a HOC? I have no idea, I'm high as balls
+ - withPresence(animation)(component)? Possibly allow components to use this API with a HOC? I have no idea!?!
 
 */
