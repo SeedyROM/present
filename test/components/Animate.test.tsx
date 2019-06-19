@@ -1,8 +1,6 @@
 import * as React from "react";
 import { render } from "@testing-library/react";
 
-import "../setup";
-
 import Animate, { Keyframes, Elements } from "../../src/components/Animate";
 
 const invalidTestMarkup = <Animate>broken</Animate>;

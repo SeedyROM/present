@@ -49,5 +49,10 @@
   "dependencies": {
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "enzyme-adapter-react-16": "^1.14.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./test/setup.ts"
+    ]
   }
 }
