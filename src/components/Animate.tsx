@@ -1,38 +1,13 @@
 import React, { useEffect } from "react";
+
 import { createStore, filterComponentsByType } from "../utils";
-
-type Duration = number | string;
-
-const durationFormat = /^(?<value>\d*\.?\d+)(?<unit>s|ms)?$/gi;
-export const validateDuration = (duration: Duration): boolean => {
-  switch (typeof duration) {
-    case "number":
-      return true;
-    case "string":
-      const matches = duration.match(durationFormat);
-
-      if (matches === null) return false;
-      switch (matches.length) {
-        case 1:
-        case 2:
-          return true;
-        default:
-          return false;
-      }
-  }
-};
-
-interface Frame {
-  mutation: (...args: any[]) => any;
-  duration: Duration;
-}
-
-interface AnimateState {
-  frames: Frame[];
-  elements: React.ReactNode;
-}
-
-type AnimateAction = { type: "addFrame" | "removeFrame"; payload: Frame };
+import {
+  AnimateState,
+  AnimateAction,
+  KeyframesProps,
+  ElementsProps,
+  ContextProps,
+} from "./Animate.types";
 
 const animateInitialState: AnimateState = {
   frames: [],
@@ -51,18 +26,6 @@ const animateReducer = (state: AnimateState, action: AnimateAction) => {
   }
 };
 
-interface ContextProps {
-  context?: React.Context<any>;
-}
-
-interface KeyframesProps {
-  children?: React.ReactNode;
-}
-
-interface ElementsProps {
-  children?: React.ReactNode;
-}
-
 export const Keyframes: React.FC = (props: KeyframesProps & ContextProps) => {
   const [state] = React.useContext(props.context!);
   console.log(state);
@@ -78,21 +41,26 @@ export const Elements: React.FC = (props: ElementsProps & ContextProps) => {
 };
 
 const Animate: React.FC = props => {
+  // Our simple data store that will be injected into each component.
   const { Context, Provider } = createStore(
     animateReducer,
     animateInitialState
   );
 
+  // Use this hook to set the correct inner components
   const [children, setChildren] = React.useState<any[]>([]);
 
   useEffect(() => {
+    // Get amount of each required nested component
     const keyframes = filterComponentsByType(props.children, Keyframes);
     const elements = filterComponentsByType(props.children, Elements);
 
+    // Throw errors if the component is setup incorrectly
     if (keyframes.length !== 1)
       throw new Error("Animate requires <Keyframes />");
     if (elements.length !== 1) throw new Error("Animate requires <Elements />");
 
+    // Inject context into the nested components
     const KeyframesComponent = React.cloneElement(keyframes[0], {
       context: Context,
     });
@@ -100,6 +68,7 @@ const Animate: React.FC = props => {
       context: Context,
     });
 
+    // Update our state
     setChildren([KeyframesComponent, ElementsComponent]);
   }, []);
 

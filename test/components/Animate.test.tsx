@@ -3,11 +3,7 @@ import { render } from "@testing-library/react";
 
 import "../setup";
 
-import Animate, {
-  validateDuration,
-  Keyframes,
-  Elements,
-} from "../../src/components/Animate";
+import Animate, { Keyframes, Elements } from "../../src/components/Animate";
 
 const invalidTestMarkup = <Animate>broken</Animate>;
 const validTestMarkup = (
@@ -17,25 +13,8 @@ const validTestMarkup = (
   </Animate>
 );
 
-describe("test animate component", () => {
-  describe("test duration calculations", () => {
-    it("should accept valid integers", () => {
-      const validDuration = validateDuration(200);
-      expect(validDuration).toEqual(true);
-    });
-
-    it("should accept valid strings", () => {
-      const validDuration = validateDuration("200");
-      expect(validDuration).toEqual(true);
-    });
-
-    it("should not accept invalid strings", () => {
-      const validDuration = validateDuration("1337fake");
-      expect(validDuration).toEqual(false);
-    });
-  });
-
-  describe("testing initial implementation", () => {
+describe("<Animate />", () => {
+  describe("Test component structure validation", () => {
     it("should not render an invalid <Animate /> component", async () => {
       // LOL, just kill the error log for this test!
       const e = console.error;
