@@ -46,7 +46,7 @@ describe("test animate component", () => {
       }
       await expect(check()).rejects.toThrow();
 
-      // Reset console.error back to i
+      // Reset console.error back to e
       console.error = e;
     });
 

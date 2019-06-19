@@ -64,7 +64,10 @@ export const Keyframes = () => <div>Keyframes</div>;
 export const Elements = () => <div>Elements</div>;
 
 const Animate: React.FC = props => {
-  const { Provider } = createStore(animateReducer, animateInitialState);
+  const { Context, Provider } = createStore(
+    animateReducer,
+    animateInitialState
+  );
 
   const [children, setChildren] = React.useState<any[]>([]);
 
@@ -72,11 +75,18 @@ const Animate: React.FC = props => {
     const keyframes = filterComponentsByType(props.children, Keyframes);
     const elements = filterComponentsByType(props.children, Elements);
 
-    if (keyframes.length === 0)
+    if (keyframes.length !== 1)
       throw new Error("Animate requires <Keyframes />");
-    if (elements.length === 0) throw new Error("Animate requires <Elements />");
+    if (elements.length !== 1) throw new Error("Animate requires <Elements />");
 
-    setChildren([...keyframes, ...elements]);
+    const KeyframesComponent = React.cloneElement(keyframes[0], {
+      context: Context,
+    });
+    const ElementsComponent = React.cloneElement(elements[0], {
+      context: Context,
+    });
+
+    setChildren([KeyframesComponent, ElementsComponent]);
   }, []);
 
   return <Provider>{children}</Provider>;
