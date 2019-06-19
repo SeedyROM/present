@@ -1,6 +1,6 @@
 import { validateDuration } from "../../src/components/Animate.utils";
 
-describe("test duration calculations", () => {
+describe("validateDuration utility", () => {
   it("should accept valid integers", () => {
     const validDuration = validateDuration(200);
     expect(validDuration).toEqual(true);
