@@ -25,3 +25,18 @@ export const withProvider: any = (Provider: any) => (Component: any) => (
     <Component {...props} />
   </Provider>
 );
+
+export const filterComponentsByType = (
+  elements: React.ReactElement,
+  type: any
+) => {
+  const asArray = React.Children.toArray(elements);
+  const nullOrCorrectType = asArray.map(child => {
+    if (!child) {
+      return null;
+    }
+    return child.type === type ? child : null;
+  });
+  const filtered = nullOrCorrectType.filter(Boolean);
+  return filtered;
+};

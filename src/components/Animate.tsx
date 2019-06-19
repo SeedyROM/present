@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { createStore } from "../utils";
+import { createStore, filterComponentsByType } from "../utils";
 
 type Duration = number | string;
 
@@ -29,18 +29,21 @@ interface Frame {
 
 interface AnimateState {
   frames: Frame[];
+  elements: React.ReactNode;
 }
 
 type AnimateAction = { type: "addFrame" | "removeFrame"; payload: Frame };
 
 const animateInitialState: AnimateState = {
   frames: [],
+  elements: [],
 };
 
 const animateReducer = (state: AnimateState, action: AnimateAction) => {
   switch (action.type) {
     case "addFrame":
       return {
+        ...state,
         frames: [...state.frames, action.payload],
       };
     default:
@@ -48,20 +51,31 @@ const animateReducer = (state: AnimateState, action: AnimateAction) => {
   }
 };
 
-const filterComponentsByType = (elements: any, type: any) => {
-  const asArray = React.Children.toArray(elements);
-  const nullOrCorrectType = asArray.map(child => {
-    if (!child) {
-      return null;
-    }
-    return child.type === type ? child : null;
-  });
-  const filtered = nullOrCorrectType.filter(Boolean);
-  return filtered;
+interface ContextProps {
+  context?: React.Context<any>;
+}
+
+interface KeyframesProps {
+  children?: React.ReactNode;
+}
+
+interface ElementsProps {
+  children?: React.ReactNode;
+}
+
+export const Keyframes: React.FC = (props: KeyframesProps & ContextProps) => {
+  const [state] = React.useContext(props.context!);
+  console.log(state);
+
+  return <div>Keyframes</div>;
 };
 
-export const Keyframes = () => <div>Keyframes</div>;
-export const Elements = () => <div>Elements</div>;
+export const Elements: React.FC = (props: ElementsProps & ContextProps) => {
+  const [state] = React.useContext(props.context!);
+  console.log(state);
+
+  return <div>Elements</div>;
+};
 
 const Animate: React.FC = props => {
   const { Context, Provider } = createStore(
