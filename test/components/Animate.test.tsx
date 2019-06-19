@@ -1,12 +1,21 @@
 import * as React from "react";
-import { render, waitForElement, cleanup } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 
-// import { renderHook, act } from "react-hooks-testing-library";
-import Animate, { validateDuration } from "../../src/components/Animate";
+import Animate, {
+  validateDuration,
+  Keyframes,
+  Elements,
+} from "../../src/components/Animate";
 
 afterEach(cleanup);
 
-const testMarkup = <Animate>hello</Animate>;
+const invalidTestMarkup = <Animate>broken</Animate>;
+const validTestMarkup = (
+  <Animate>
+    <Keyframes></Keyframes>
+    <Elements></Elements>
+  </Animate>
+);
 
 describe("test animate component", () => {
   describe("test duration calculations", () => {
@@ -27,10 +36,24 @@ describe("test animate component", () => {
   });
 
   describe("testing initial implementation", () => {
-    it("should render the <Animate /> component", async () => {
-      const component = await render(testMarkup);
+    it("should not render an invalid <Animate /> component", async () => {
+      // LOL, just kill the error log for this test!
+      const c = console.error;
+      console.error = () => {};
 
-      await waitForElement(() => component.getByText(/hello/i));
+      async function check() {
+        await render(invalidTestMarkup);
+      }
+
+      await expect(check()).rejects.toThrow();
+
+      console.error = c;
+    });
+
+    it("should render a valid <Animate /> component", async () => {
+      await render(validTestMarkup);
+
+      // await waitForElement(() => {});
     });
   });
 });

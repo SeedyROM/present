@@ -1,10 +1,11 @@
-import React, { Dispatch, Reducer, Provider } from "react";
+import React, { Dispatch, Reducer } from "react";
 
 export const createStore = <S extends {}, A extends {}>(
   reducer: Reducer<S, A>,
   initialState: S
 ) => {
-  const contextValues: [S, Dispatch<A>] = [initialState, action => {}];
+  const dummyAction = () => {};
+  const contextValues: [S, Dispatch<A>] = [initialState, dummyAction];
 
   const Context = React.createContext<[S, Dispatch<A>]>(contextValues);
 
@@ -17,9 +18,9 @@ export const createStore = <S extends {}, A extends {}>(
   return { Context, Provider, Consumer: Context.Consumer };
 };
 
-export const withProvider: React.FC = (Provider: Provider<any>) => (
-  Component: JSX.Element
-) => (props: any) => (
+export const withProvider: any = (Provider: any) => (Component: any) => (
+  props: any
+) => (
   <Provider>
     <Component {...props} />
   </Provider>

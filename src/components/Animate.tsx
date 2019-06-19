@@ -1,7 +1,5 @@
-import React from "react";
-
-// TODO: Implement context and hooks API
-// import { createStore } from "utils";
+import React, { useEffect } from "react";
+import { createStore } from "../utils";
 
 type Duration = number | string;
 
@@ -22,22 +20,66 @@ export const validateDuration = (duration: Duration): boolean => {
           return false;
       }
   }
-
-  // switch(typeof duration) {
-  //   case 'number':
-  //     return durationFormat.test(duration.toString());
-  //   case 'string':
-  //     return durationFormat.test(duration);
-  // }
 };
 
-// interface Frame {
-//   mutation: (...args: any[]) => any;
-//   duration: Duration;
-// }
+interface Frame {
+  mutation: (...args: any[]) => any;
+  duration: Duration;
+}
+
+interface AnimateState {
+  frames: Frame[];
+}
+
+type AnimateAction = { type: "addFrame" | "removeFrame"; payload: Frame };
+
+const animateInitialState: AnimateState = {
+  frames: [],
+};
+
+const animateReducer = (state: AnimateState, action: AnimateAction) => {
+  switch (action.type) {
+    case "addFrame":
+      return {
+        frames: [...state.frames, action.payload],
+      };
+    default:
+      return state;
+  }
+};
+
+const filterComponentsByType = (elements: any, type: any) => {
+  const asArray = React.Children.toArray(elements);
+  const nullOrCorrectType = asArray.map(child => {
+    if (!child) {
+      return null;
+    }
+    return child.type === type ? child : null;
+  });
+  const filtered = nullOrCorrectType.filter(Boolean);
+  return filtered;
+};
+
+export const Keyframes = () => <div>Keyframes</div>;
+export const Elements = () => <div>Elements</div>;
 
 const Animate: React.FC = props => {
-  return <>{props.children}</>;
+  const { Provider } = createStore(animateReducer, animateInitialState);
+
+  const [children, setChildren] = React.useState<any[]>([]);
+
+  useEffect(() => {
+    const keyframes = filterComponentsByType(props.children, Keyframes);
+    const elements = filterComponentsByType(props.children, Elements);
+
+    if (keyframes.length === 0)
+      throw new Error("Animate requires <Keyframes />");
+    if (elements.length === 0) throw new Error("Animate requires <Elements />");
+
+    setChildren([...keyframes, ...elements]);
+  }, []);
+
+  return <Provider>{children}</Provider>;
 };
 
 export default Animate;
