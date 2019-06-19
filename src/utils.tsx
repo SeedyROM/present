@@ -26,10 +26,7 @@ export const withProvider: any = (Provider: any) => (Component: any) => (
   </Provider>
 );
 
-export const filterComponentsByType = (
-  elements: React.ReactElement,
-  type: any
-) => {
+export const filterComponentsByType = (elements: any, type: any) => {
   const asArray = React.Children.toArray(elements);
   const nullOrCorrectType = asArray.map(child => {
     if (!child) {

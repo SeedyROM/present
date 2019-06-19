@@ -1,13 +1,13 @@
 import * as React from "react";
-import { render, cleanup } from "@testing-library/react";
+import { render } from "@testing-library/react";
+
+import "../setup";
 
 import Animate, {
   validateDuration,
   Keyframes,
   Elements,
 } from "../../src/components/Animate";
-
-afterEach(cleanup);
 
 const invalidTestMarkup = <Animate>broken</Animate>;
 const validTestMarkup = (
