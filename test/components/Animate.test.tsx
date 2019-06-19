@@ -38,22 +38,20 @@ describe("test animate component", () => {
   describe("testing initial implementation", () => {
     it("should not render an invalid <Animate /> component", async () => {
       // LOL, just kill the error log for this test!
-      const c = console.error;
+      const e = console.error;
       console.error = () => {};
 
       async function check() {
         await render(invalidTestMarkup);
       }
-
       await expect(check()).rejects.toThrow();
 
-      console.error = c;
+      // Reset console.error back to i
+      console.error = e;
     });
 
     it("should render a valid <Animate /> component", async () => {
       await render(validTestMarkup);
-
-      // await waitForElement(() => {});
     });
   });
 });
