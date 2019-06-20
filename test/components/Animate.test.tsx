@@ -1,13 +1,27 @@
 import * as React from "react";
 import { render } from "@testing-library/react";
 
-import Animate, { Keyframes, Elements } from "../../src/components/Animate";
+import Animate, {
+  Keyframes,
+  Elements,
+  Tween,
+} from "../../src/components/Animate";
 
 const invalidTestMarkup = <Animate>broken</Animate>;
 const validTestMarkup = (
   <Animate>
-    <Keyframes></Keyframes>
-    <Elements></Elements>
+    <Keyframes>
+      <Tween
+        name="test"
+        duration={300}
+        to={{
+          opacity: 1,
+        }}
+      />
+    </Keyframes>
+    <Elements>
+      <div data-name="test">thinking about living</div>
+    </Elements>
   </Animate>
 );
 

@@ -3,7 +3,6 @@ import React from "react";
 export type Duration = number | string;
 
 export interface Frame {
-  mutation: (...args: any[]) => any;
   duration: Duration;
 }
 

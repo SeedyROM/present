@@ -12,6 +12,8 @@ export const createStore = <S extends {}, A extends {}>(
   const Provider: React.FC = (props: any) => {
     const store = React.useReducer(reducer, initialState);
 
+    console.log(store[1]);
+
     return <Context.Provider value={store}>{props.children}</Context.Provider>;
   };
 

@@ -5,7 +5,8 @@ import {
   AnimateState,
   AnimateAction,
   KeyframesProps,
-  ElementsProps,
+  Frame,
+  // ElementsProps,
   ContextProps,
 } from "./Animate.types";
 
@@ -26,18 +27,38 @@ const animateReducer = (state: AnimateState, action: AnimateAction) => {
   }
 };
 
-export const Keyframes: React.FC = (props: KeyframesProps & ContextProps) => {
-  const [state] = React.useContext(props.context!);
-  console.log(state);
-
-  return <div>Keyframes</div>;
+export const Tween: React.FC<Frame> = () => {
+  return null;
 };
 
-export const Elements: React.FC = (props: ElementsProps & ContextProps) => {
-  const [state] = React.useContext(props.context!);
+export const Keyframes = (props: KeyframesProps & ContextProps) => {
+  const [state, dispatch] = React.useContext(props.context!);
+
+  useEffect(() => {
+    const frameComponents = filterComponentsByType(props.children, Tween);
+
+    console.log(props.context!);
+
+    frameComponents.forEach((frameComponent: any) => {
+      dispatch({
+        action: "addFrame",
+        payload: {
+          duration: frameComponent.props,
+        },
+      });
+    });
+
+    console.log(state);
+  });
+
   console.log(state);
 
-  return <div>Elements</div>;
+  return null;
+};
+
+// props: ElementsProps & ContextProps
+export const Elements = () => {
+  return null;
 };
 
 const Animate: React.FC = props => {
@@ -48,7 +69,7 @@ const Animate: React.FC = props => {
   );
 
   // Use this hook to set the correct inner components
-  const [children, setChildren] = React.useState<any[]>([]);
+  const [children, setChildren] = React.useState<React.ReactNode>([]);
 
   useEffect(() => {
     // Get amount of each required nested component
@@ -70,7 +91,7 @@ const Animate: React.FC = props => {
 
     // Update our state
     setChildren([KeyframesComponent, ElementsComponent]);
-  }, []);
+  });
 
   return <Provider>{children}</Provider>;
 };
